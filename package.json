@@ -1,0 +1,70 @@
+{
+  "name": "@sendnodes/hd-keyring",
+  "private": true,
+  "authors": [
+    "Dire <dire@sendnodes.io>",
+    "BigBoss <bigboss@sendnodes.io>"
+  ],
+  "version": "0.1.0",
+  "license": "GPL-3.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "dts watch --tsconfig ./tsconfig.json",
+    "build": "dts build --tsconfig ./tsconfig.json",
+    "test": "dts test",
+    "lint": "eslint . --ext ts",
+    "lint:fix": "eslint . --fix --ext ts",
+    "prepare": "npm run build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "dts lint"
+    }
+  },
+  "module": "dist/hd-keyring.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/hd-keyring.cjs.production.min.js",
+      "limit": "250 KB"
+    },
+    {
+      "path": "dist/hd-keyring.esm.js",
+      "limit": "250 KB"
+    }
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^5.0.3",
+    "@types/jest": "^27.5.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "babel-jest": "^28.1.0",
+    "dts-cli": "^1.5.1",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-import": "^2.25.4",
+    "husky": "^7.0.2",
+    "jest": "^28.1.0",
+    "jest-watch-typeahead": "^1.1.0",
+    "size-limit": "^5.0.3",
+    "ts-jest": "^28.0.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "@ethersproject/abstract-provider": "^5.4.0",
+    "@ethersproject/abstract-signer": "^5.4.0",
+    "@ethersproject/hdnode": "^5.4.0",
+    "@ethersproject/keccak256": "^5.4.0",
+    "@ethersproject/wallet": "5.4.0",
+    "@pokt-network/pocket-js": "git+ssh://git@github.com:sendnodes-io/pocket-js.git#66a271281c1b6a486f342df573abe68531d72cb3",
+    "@sendnodes/hd-node": "git+ssh://git@sendnodes.github.com:sendnodes-io/hd-node.git#a3e25550e4133234e77a30944438566b61025c47",
+    "bip39": "^3.0.4"
+  }
+}
