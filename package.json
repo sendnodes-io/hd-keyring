@@ -45,7 +45,7 @@
     "@types/node": "^18.0.4",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
-    "babel-jest": "^28.1.0",
+    "babel-jest": "^27",
     "dts-cli": "^1.5.1",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.4.0",
@@ -67,7 +67,7 @@
     "@ethersproject/logger": "^5.6.0",
     "@ethersproject/wallet": "5.4.0",
     "@pokt-network/pocket-js": "https://github.com/sendnodes-io/pocket-js.git#66a271281c1b6a486f342df573abe68531d72cb3",
-    "@sendnodes/hd-node": "https://github.com/0xBigBoss/hd-node.git#5c5d12de0b90f941fa5f66e4712cff236f3bdca8",
+    "@sendnodes/hd-node": "https://github.com/sendnodes-io/hd-node.git#c5470b1720e7c517f6a5bbba3781ed24dedbd94e",
     "bip39": "^3.0.4",
     "tweetnacl": "^1.0.3"
   }
