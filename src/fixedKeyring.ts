@@ -50,7 +50,7 @@ export class FixedKeyring implements Keyring<SeralizedFixedKeyring> {
   #wallet: WalletSECP256K1 | WalletED25519;
 
   constructor(_options: FixedKeyringOptions) {
-    let options = defaultOptions[_options.keyType];
+    const options = defaultOptions[_options.keyType];
     this.keyType = options.keyType;
     this.#wallet = new options.walletClass(_options.privateKey);
     if (!this.#wallet || this.#wallet.privateKey === null)
