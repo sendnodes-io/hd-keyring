@@ -64,7 +64,7 @@
     "@ethersproject/keccak256": "^5.4.0",
     "@ethersproject/wallet": "5.4.0",
     "@pokt-network/pocket-js": "https://github.com/sendnodes-io/pocket-js.git#66a271281c1b6a486f342df573abe68531d72cb3",
-    "@sendnodes/hd-node": "git+ssh://git@github.com:sendnodes-io/hd-node.git#95677ab3058319590e2a9c6b3731293cc6b4efb7",
+    "@sendnodes/hd-node": "https://github.com/sendnodes-io/hd-node.git#95677ab3058319590e2a9c6b3731293cc6b4efb7",
     "bip39": "^3.0.4"
   }
 }

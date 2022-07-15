@@ -2230,9 +2230,9 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@sendnodes/hd-node@git+ssh://git@github.com:sendnodes-io/hd-node.git#95677ab3058319590e2a9c6b3731293cc6b4efb7":
+"@sendnodes/hd-node@https://github.com/sendnodes-io/hd-node.git#95677ab3058319590e2a9c6b3731293cc6b4efb7":
   version "5.4.0"
-  resolved "git+ssh://git@github.com:sendnodes-io/hd-node.git#95677ab3058319590e2a9c6b3731293cc6b4efb7"
+  resolved "https://github.com/sendnodes-io/hd-node.git#95677ab3058319590e2a9c6b3731293cc6b4efb7"
   dependencies:
     "@ethersproject/abstract-signer" "^5.4.0"
     "@ethersproject/basex" "^5.4.0"
