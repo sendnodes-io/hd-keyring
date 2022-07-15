@@ -1,6 +1,6 @@
 {
   "name": "@sendnodes/hd-keyring",
-  "private": true,
+  "description": "A class to manage BIP-32 compatible hierarchical deterministic (HD) wallets, with added support for ed25519 keys.",
   "authors": [
     "Dire <dire@sendnodes.io>",
     "BigBoss <bigboss@sendnodes.io>"
@@ -67,7 +67,7 @@
     "@ethersproject/logger": "^5.6.0",
     "@ethersproject/wallet": "5.4.0",
     "@pokt-network/pocket-js": "https://github.com/sendnodes-io/pocket-js.git#66a271281c1b6a486f342df573abe68531d72cb3",
-    "@sendnodes/hd-node": "https://github.com/sendnodes-io/hd-node.git#c5470b1720e7c517f6a5bbba3781ed24dedbd94e",
+    "@sendnodes/hd-node": "5.4.0",
     "bip39": "^3.0.4",
     "tweetnacl": "^1.0.3"
   }

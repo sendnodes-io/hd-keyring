@@ -9,7 +9,7 @@ specifiers:
   '@ethersproject/transactions': ^5.6.2
   '@ethersproject/wallet': 5.4.0
   '@pokt-network/pocket-js': https://github.com/sendnodes-io/pocket-js.git#66a271281c1b6a486f342df573abe68531d72cb3
-  '@sendnodes/hd-node': https://github.com/sendnodes-io/hd-node.git#c5470b1720e7c517f6a5bbba3781ed24dedbd94e
+  '@sendnodes/hd-node': 5.4.0
   '@size-limit/preset-small-lib': ^5.0.3
   '@types/jest': ^27.5.0
   '@types/node': ^18.0.4
@@ -39,7 +39,7 @@ dependencies:
   '@ethersproject/logger': 5.6.0
   '@ethersproject/wallet': 5.4.0
   '@pokt-network/pocket-js': github.com/sendnodes-io/pocket-js/66a271281c1b6a486f342df573abe68531d72cb3_typescript@4.6.4
-  '@sendnodes/hd-node': github.com/sendnodes-io/hd-node/c5470b1720e7c517f6a5bbba3781ed24dedbd94e_typescript@4.6.4
+  '@sendnodes/hd-node': 5.4.0_typescript@4.6.4
   bip39: 3.0.4
   tweetnacl: 1.0.3
 
@@ -2133,6 +2133,34 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.0
     dev: true
+
+  /@sendnodes/hd-node/5.4.0_typescript@4.6.4:
+    resolution: {integrity: sha512-EgyGN/2kMkERJNsgdWp3FwMvgCXjcYdl6jOi1CRHjd6iEg4zDQHIbaTchom50tIPuKir7iwcgJmpeKPxX3UnFw==}
+    dependencies:
+      '@ethersproject/abstract-signer': 5.4.1
+      '@ethersproject/basex': 5.4.0
+      '@ethersproject/bignumber': 5.6.2
+      '@ethersproject/bytes': 5.6.1
+      '@ethersproject/logger': 5.6.0
+      '@ethersproject/pbkdf2': 5.4.0
+      '@ethersproject/properties': 5.6.0
+      '@ethersproject/sha2': 5.4.0
+      '@ethersproject/signing-key': 5.6.2
+      '@ethersproject/strings': 5.4.0
+      '@ethersproject/transactions': 5.6.2
+      '@ethersproject/wordlists': 5.4.0
+      '@pokt-network/pocket-js': github.com/sendnodes-io/pocket-js/66a271281c1b6a486f342df573abe68531d72cb3_typescript@4.6.4
+      '@types/elliptic': 6.4.14
+      bn.js: 4.12.0
+      ed25519-hd-key: 1.2.0
+      elliptic: 6.5.4
+      hash.js: 1.1.7
+      libsodium-wrappers: 0.7.10
+      tweetnacl: 1.0.3
+    transitivePeerDependencies:
+      - debug
+      - typescript
+    dev: false
 
   /@sinclair/typebox/0.23.5:
     resolution: {integrity: sha512-AFBVi/iT4g20DHoujvMH1aEDn8fGJh4xsRGCP6d8RpLPMqsNPvW01Jcn0QysXTsg++/xj25NmJsGyH9xug/wKg==}
@@ -10778,39 +10806,6 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  github.com/sendnodes-io/hd-node/c5470b1720e7c517f6a5bbba3781ed24dedbd94e_typescript@4.6.4:
-    resolution: {tarball: https://codeload.github.com/sendnodes-io/hd-node/tar.gz/c5470b1720e7c517f6a5bbba3781ed24dedbd94e}
-    id: github.com/sendnodes-io/hd-node/c5470b1720e7c517f6a5bbba3781ed24dedbd94e
-    name: '@sendnodes/hd-node'
-    version: 5.4.0
-    prepare: true
-    requiresBuild: true
-    dependencies:
-      '@ethersproject/abstract-signer': 5.4.1
-      '@ethersproject/basex': 5.4.0
-      '@ethersproject/bignumber': 5.6.2
-      '@ethersproject/bytes': 5.6.1
-      '@ethersproject/logger': 5.6.0
-      '@ethersproject/pbkdf2': 5.4.0
-      '@ethersproject/properties': 5.6.0
-      '@ethersproject/sha2': 5.4.0
-      '@ethersproject/signing-key': 5.6.2
-      '@ethersproject/strings': 5.4.0
-      '@ethersproject/transactions': 5.6.2
-      '@ethersproject/wordlists': 5.4.0
-      '@pokt-network/pocket-js': github.com/sendnodes-io/pocket-js/66a271281c1b6a486f342df573abe68531d72cb3_typescript@4.6.4
-      '@types/elliptic': 6.4.14
-      bn.js: 4.12.0
-      ed25519-hd-key: 1.2.0
-      elliptic: 6.5.4
-      hash.js: 1.1.7
-      libsodium-wrappers: 0.7.10
-      tweetnacl: 1.0.3
-    transitivePeerDependencies:
-      - debug
-      - typescript
-    dev: false
 
   github.com/sendnodes-io/pocket-js/66a271281c1b6a486f342df573abe68531d72cb3_typescript@4.6.4:
     resolution: {tarball: https://codeload.github.com/sendnodes-io/pocket-js/tar.gz/66a271281c1b6a486f342df573abe68531d72cb3}
