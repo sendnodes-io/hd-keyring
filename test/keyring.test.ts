@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { hashMessage } from "@ethersproject/hash";
+import { toUtf8Bytes } from "@ethersproject/strings";
 import { verifyMessage, verifyTypedData } from "@ethersproject/wallet";
 import {
   parse,
@@ -528,10 +528,10 @@ describe("HDKeyring Pokt", () => {
           const signature = await keyring.signMessage(address, message);
           const signatureBytes = Buffer.from(signature, "hex");
           const messageBytes = Uint8Array.from(
-            Buffer.from(hashMessage(message))
+            Buffer.from(toUtf8Bytes(message))
           );
           const wrongMessageBytes = Uint8Array.from(
-            Buffer.from(hashMessage("foo bar!"))
+            Buffer.from(toUtf8Bytes("foo bar!"))
           );
           const pubKeyBytes = Uint8Array.from(
             Buffer.from(keyring.getPublicKey(address), "hex")

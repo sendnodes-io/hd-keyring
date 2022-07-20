@@ -39,7 +39,7 @@
     }
   ],
   "devDependencies": {
-    "@ethersproject/hash": "^5.6.1",
+    "@ethersproject/strings": "^5.6.1",
     "@ethersproject/transactions": "^5.6.2",
     "@size-limit/preset-small-lib": "^5.0.3",
     "@types/jest": "^27.5.0",

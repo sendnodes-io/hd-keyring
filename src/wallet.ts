@@ -9,7 +9,7 @@ import {
 } from "@pokt-network/pocket-js/dist/index";
 import { Mnemonic, HDNode, defaultPath } from "@sendnodes/hd-node/dist/index";
 import { ExternallyOwnedAccount } from "@ethersproject/abstract-signer";
-import { hashMessage } from "@ethersproject/hash";
+import { toUtf8Bytes } from "@ethersproject/strings";
 import { Logger } from "@ethersproject/logger";
 import nacl from "tweetnacl";
 
@@ -138,7 +138,7 @@ export class WalletED25519 {
   }
 
   async signMessage(message: string): Promise<string> {
-    const signature = await this.signBytes(Buffer.from(hashMessage(message)));
+    const signature = await this.signBytes(Buffer.from(toUtf8Bytes(message)));
     return signature.toString("hex");
   }
 

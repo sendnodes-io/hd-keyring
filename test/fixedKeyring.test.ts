@@ -1,5 +1,5 @@
 import { Transaction as PoktTransaction } from "../src/wallet";
-import { hashMessage } from "@ethersproject/hash";
+import { toUtf8Bytes } from "@ethersproject/strings";
 import { MsgSend } from "@pokt-network/pocket-js/dist/index";
 import nacl from "tweetnacl";
 import { KeyType } from "../src/types";
@@ -187,10 +187,10 @@ describe("FixedKeyring Pokt", () => {
           const signature = await keyring.signMessage(address, message);
           const signatureBytes = Buffer.from(signature, "hex");
           const messageBytes = Uint8Array.from(
-            Buffer.from(hashMessage(message))
+            Buffer.from(toUtf8Bytes(message))
           );
           const wrongMessageBytes = Uint8Array.from(
-            Buffer.from(hashMessage("foo bar!"))
+            Buffer.from(toUtf8Bytes("foo bar!"))
           );
           const pubKeyBytes = Uint8Array.from(
             Buffer.from(keyring.getPublicKey(address), "hex")
