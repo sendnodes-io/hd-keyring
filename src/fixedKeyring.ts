@@ -91,6 +91,10 @@ export class FixedKeyring implements Keyring<SeralizedFixedKeyring> {
     this.#validateAddress(address);
     return this.#wallet.privateKey;
   }
+  getPublicKey(address: string): string {
+    this.#validateAddress(address);
+    return this.#wallet.publicKey;
+  }
   async signTransaction(
     address: string,
     transaction: TransactionRequest | PoktTransaction
@@ -131,10 +135,7 @@ export class FixedKeyring implements Keyring<SeralizedFixedKeyring> {
   signMessage(address: string, message: string): Promise<string> {
     this.#validateAddress(address);
     const wallet = this.#wallet;
-    if (wallet instanceof WalletSECP256K1) {
-      return wallet.signMessage(message);
-    }
-    throw new Error("Unsupported Method");
+    return wallet.signMessage(message);
   }
 
   static deserialize(obj: SeralizedFixedKeyring): FixedKeyring {
