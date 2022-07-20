@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { hashMessage } from "@ethersproject/hash";
 import { verifyMessage, verifyTypedData } from "@ethersproject/wallet";
 import {
   parse,
@@ -7,6 +8,7 @@ import {
   UnsignedTransaction,
 } from "@ethersproject/transactions";
 import { keccak256 } from "@ethersproject/keccak256";
+import nacl from "tweetnacl";
 import { TransactionRequest } from "@ethersproject/abstract-provider";
 import { Transaction as PoktTransaction } from "../src/wallet";
 import { MsgSend } from "@pokt-network/pocket-js/dist/index";
@@ -508,6 +510,58 @@ describe("HDKeyring Pokt", () => {
           };
           const verified = await keyring.signTransactionVerified(address, tx);
           expect(verified).toEqual(true);
+        });
+      })
+    );
+  });
+  it("signs messages recoverably", async () => {
+    await Promise.all(
+      twelveOrMoreWordMnemonics.map(async (m) => {
+        const keyring = new HDKeyring({
+          mnemonic: m,
+          keyType: KeyType.ED25519,
+        });
+
+        const addresses = await keyring.addAddresses(2);
+        const message = "Hello World!";
+        addresses.forEach(async (address) => {
+          const signature = await keyring.signMessage(address, message);
+          const signatureBytes = Buffer.from(signature, "hex");
+          const messageBytes = Uint8Array.from(
+            Buffer.from(hashMessage(message))
+          );
+          const wrongMessageBytes = Uint8Array.from(
+            Buffer.from(hashMessage("foo bar!"))
+          );
+          const pubKeyBytes = Uint8Array.from(
+            Buffer.from(keyring.getPublicKey(address), "hex")
+          );
+          const wrongPubKeyBytes = Uint8Array.from(
+            Buffer.from(
+              "f9b21baed4ef1a0b77086a22220000000000384e6bc41ef2dd60def8f5be5b37",
+              "hex"
+            )
+          );
+          const verified = nacl.sign.detached.verify(
+            messageBytes,
+            signatureBytes,
+            pubKeyBytes
+          );
+          expect(verified).toEqual(true);
+
+          const verified2 = nacl.sign.detached.verify(
+            wrongMessageBytes,
+            signatureBytes,
+            pubKeyBytes
+          );
+          expect(verified2).toEqual(false);
+
+          const verified3 = nacl.sign.detached.verify(
+            messageBytes,
+            signatureBytes,
+            wrongPubKeyBytes
+          );
+          expect(verified3).toEqual(false);
         });
       })
     );
