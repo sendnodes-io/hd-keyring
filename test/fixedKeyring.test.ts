@@ -1,5 +1,7 @@
 import { Transaction as PoktTransaction } from "../src/wallet";
+import { toUtf8Bytes } from "@ethersproject/strings";
 import { MsgSend } from "@pokt-network/pocket-js/dist/index";
+import nacl from "tweetnacl";
 import { KeyType } from "../src/types";
 import { FixedKeyring } from "../src/fixedKeyring";
 
@@ -166,6 +168,59 @@ describe("FixedKeyring Pokt", () => {
           };
           const verified = await keyring.signTransactionVerified(address, tx);
           expect(verified).toEqual(true);
+        });
+      })
+    );
+  });
+
+  it("signs messages recoverably", async () => {
+    await Promise.all(
+      validPrivateKeys.map(async (pk) => {
+        const keyring = new FixedKeyring({
+          privateKey: pk,
+          keyType: KeyType.ED25519,
+        });
+
+        const message = "Hello World!";
+
+        (await keyring.getAddresses()).forEach(async (address) => {
+          const signature = await keyring.signMessage(address, message);
+          const signatureBytes = Buffer.from(signature, "hex");
+          const messageBytes = Uint8Array.from(
+            Buffer.from(toUtf8Bytes(message))
+          );
+          const wrongMessageBytes = Uint8Array.from(
+            Buffer.from(toUtf8Bytes("foo bar!"))
+          );
+          const pubKeyBytes = Uint8Array.from(
+            Buffer.from(keyring.getPublicKey(address), "hex")
+          );
+          const wrongPubKeyBytes = Uint8Array.from(
+            Buffer.from(
+              "f9b21baed4ef1a0b77086a22220000000000384e6bc41ef2dd60def8f5be5b37",
+              "hex"
+            )
+          );
+          const verified = nacl.sign.detached.verify(
+            messageBytes,
+            signatureBytes,
+            pubKeyBytes
+          );
+          expect(verified).toEqual(true);
+
+          const verified2 = nacl.sign.detached.verify(
+            wrongMessageBytes,
+            signatureBytes,
+            pubKeyBytes
+          );
+          expect(verified2).toEqual(false);
+
+          const verified3 = nacl.sign.detached.verify(
+            messageBytes,
+            signatureBytes,
+            wrongPubKeyBytes
+          );
+          expect(verified3).toEqual(false);
         });
       })
     );

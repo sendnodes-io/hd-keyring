@@ -152,6 +152,17 @@ export class HDKeyring implements Keyring<SerializedHDKeyring> {
     return w.privateKey;
   }
 
+  getPublicKey(address: string): string {
+    const w = this.#wallets.find((w) => {
+      // hex is hex
+      return w.address.toUpperCase() === address.toString().toUpperCase();
+    });
+    if (!w) {
+      throw new Error("Address is not in keyring");
+    }
+    return w.publicKey;
+  }
+
   serializeSync(): SerializedHDKeyring {
     return {
       version: SerializedKeyringVersion.V1,
@@ -243,10 +254,7 @@ export class HDKeyring implements Keyring<SerializedHDKeyring> {
 
   async signMessage(address: string, message: string): Promise<string> {
     const wallet = this._getAddressWallet(address);
-    if (wallet instanceof WalletSECP256K1) {
-      return wallet.signMessage(message);
-    }
-    throw new Error("Unsupported Method");
+    return wallet.signMessage(message);
   }
 
   addAddressesSync(numNewAccounts = 1): string[] {

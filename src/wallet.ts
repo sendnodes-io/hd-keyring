@@ -9,6 +9,7 @@ import {
 } from "@pokt-network/pocket-js/dist/index";
 import { Mnemonic, HDNode, defaultPath } from "@sendnodes/hd-node/dist/index";
 import { ExternallyOwnedAccount } from "@ethersproject/abstract-signer";
+import { toUtf8Bytes } from "@ethersproject/strings";
 import { Logger } from "@ethersproject/logger";
 import nacl from "tweetnacl";
 
@@ -38,6 +39,10 @@ function hasMnemonic(value: any): value is { mnemonic: Mnemonic } {
   return mnemonic && mnemonic.phrase;
 }
 
+function computePublicKey(pk: string): string {
+  return publicKeyFromPrivate(Buffer.from(pk, "hex")).toString("hex");
+}
+
 function computeAddress(pk: string): string {
   return addressFromPublickey(
     publicKeyFromPrivate(Buffer.from(pk, "hex"))
@@ -48,6 +53,7 @@ const logger = new Logger("pokt-wallet/1.0");
 
 export class WalletED25519 {
   private readonly _privateKey: string;
+  private readonly _publicKey: string;
   readonly address: string;
   readonly _mnemonic: () => Mnemonic | null;
 
@@ -56,6 +62,7 @@ export class WalletED25519 {
 
     if (isAccount(privateKey)) {
       this._privateKey = privateKey.privateKey;
+      this._publicKey = computePublicKey(this._privateKey);
       this.address = computeAddress(this._privateKey);
       if (this.address !== privateKey.address) {
         logger.throwArgumentError(
@@ -89,6 +96,7 @@ export class WalletED25519 {
       }
     } else {
       this._privateKey = privateKey;
+      this._publicKey = computePublicKey(this._privateKey);
       this.address = computeAddress(this._privateKey);
       this._mnemonic = () => null;
     }
@@ -98,6 +106,9 @@ export class WalletED25519 {
   }
   get privateKey(): string {
     return this._privateKey;
+  }
+  get publicKey(): string {
+    return this._publicKey;
   }
 
   getTransactionBytes(
@@ -119,11 +130,16 @@ export class WalletED25519 {
     return signer.marshalStdSignDoc();
   }
 
-  async signTransactionBytes(bytesToSign: Buffer): Promise<Buffer> {
+  async signBytes(bytesToSign: Buffer): Promise<Buffer> {
     const data = Uint8Array.from(bytesToSign);
     const key = Uint8Array.from(Buffer.from(this._privateKey, "hex"));
     const signature = nacl.sign.detached(data, key);
     return Buffer.from(signature);
+  }
+
+  async signMessage(message: string): Promise<string> {
+    const signature = await this.signBytes(Buffer.from(toUtf8Bytes(message)));
+    return signature.toString("hex");
   }
 
   async signTransaction(
@@ -145,7 +161,7 @@ export class WalletED25519 {
         opts.useLegacyTxCodec
       );
       const bytesToSign = signer.marshalStdSignDoc();
-      const signature = await this.signTransactionBytes(bytesToSign);
+      const signature = await this.signBytes(bytesToSign);
       const pubKey = publicKeyFromPrivate(Buffer.from(this._privateKey, "hex"));
       const txSignature = new TxSignature(pubKey, signature);
       const encodedTxBytes = signer.marshalStdTx(txSignature);
@@ -160,7 +176,7 @@ export class WalletED25519 {
     opts: TransactionOptions = { useLegacyTxCodec: false }
   ): Promise<boolean> {
     const bytesToSign = this.getTransactionBytes(transaction, opts);
-    const signature = await this.signTransactionBytes(bytesToSign);
+    const signature = await this.signBytes(bytesToSign);
     const publicKey = publicKeyFromPrivate(
       Buffer.from(this._privateKey, "hex")
     );
